@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Статистика игр - Dota 2 Titan MMR Tracker</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Dota 2 Статистика игр</h1>
+            <div class="titan-badge">TITAN</div>
+        </header>
+
+        <nav class="stats-nav">
+            <a href="index.html" class="nav-btn">← На главную</a>
+            <button onclick="showStatsSection('overall')" class="nav-btn active">📊 Общая статистика</button>
+            <button onclick="showStatsSection('heroes')" class="nav-btn">🎯 Статистика по героям</button>
+            <button onclick="showStatsSection('timeline')" class="nav-btn">📈 Хронология</button>
+        </nav>
+
+        <!-- Общая статистика -->
+        <div id="overall-stats" class="stats-section active">
+            <div class="stats-header">
+                <h2>📊 Общая статистика игр</h2>
+                <div class="stats-summary">
+                    <div class="summary-card total">
+                        <div class="summary-icon">🎮</div>
+                        <h3>Всего игр</h3>
+                        <span id="total-games-stats" class="summary-value">0</span>
+                    </div>
+                    <div class="summary-card wins">
+                        <div class="summary-icon">✅</div>
+                        <h3>Победы</h3>
+                        <span id="total-wins-stats" class="summary-value">0</span>
+                    </div>
+                    <div class="summary-card losses">
+                        <div class="summary-icon">❌</div>
+                        <h3>Поражения</h3>
+                        <span id="total-losses-stats" class="summary-value">0</span>
+                    </div>
+                    <div class="summary-card winrate">
+                        <div class="summary-icon">📈</div>
+                        <h3>Win Rate</h3>
+                        <span id="win-rate-stats" class="summary-value">0%</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="detailed-stats">
+                <div class="stat-grid">
+                    <div class="stat-item">
+                        <h4>Среднее изменение MMR за игру</h4>
+                        <span id="avg-mmr-change" class="stat-number">0</span>
+                    </div>
+                    <div class="stat-item">
+                        <h4>Максимальная серия побед</h4>
+                        <span id="max-win-streak" class="stat-number">0</span>
+                    </div>
+                    <div class="stat-item">
+                        <h4>Максимальная серия поражений</h4>
+                        <span id="max-loss-streak" class="stat-number">0</span>
+                    </div>
+                    <div class="stat-item">
+                        <h4>Средняя длительность игры</h4>
+                        <span id="avg-duration" class="stat-number">0 мин</span>
+                    </div>
+                </div>
+
+                <div class="win-loss-chart">
+                    <h4>Соотношение побед и поражений</h4>
+                    <div class="chart-container">
+                        <div class="chart-bar">
+                            <div class="win-bar" id="win-bar">
+                                <span class="bar-label">Победы: 0%</span>
+                            </div>
+                            <div class="loss-bar" id="loss-bar">
+                                <span class="bar-label">Поражения: 0%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Статистика по героям -->
+        <div id="heroes-stats" class="stats-section">
+            <div class="stats-header">
+                <h2>🎯 Статистика по героям</h2>
+                <div class="heroes-filter">
+                    <input type="text" id="hero-search" placeholder="🔍 Поиск героя..." class="search-input">
+                </div>
+            </div>
+
+            <div class="heroes-stats-container">
+                <div id="heroes-stats-list" class="heroes-list">
+                    <div class="no-heroes">Статистика по героям недоступна</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Хронология -->
+        <div id="timeline-stats" class="stats-section">
+            <div class="stats-header">
+                <h2>📈 Хронология игр</h2>
+                <div class="timeline-controls">
+                    <button onclick="changeTimelineRange('week')" class="time-btn active">Неделя</button>
+                    <button onclick="changeTimelineRange('month')" class="time-btn">Месяц</button>
+                    <button onclick="changeTimelineRange('all')" class="time-btn">Все время</button>
+                </div>
+            </div>
+
+            <div class="timeline-stats">
+                <div class="timeline-chart">
+                    <h4>Динамика MMR</h4>
+                    <div id="mmr-timeline" class="timeline-graph">
+                        <div class="no-data">Недостаточно данных для графика</div>
+                    </div>
+                </div>
+
+                <div class="recent-activity">
+                    <h4>Последняя активность</h4>
+                    <div id="recent-games" class="activity-list">
+                        <div class="no-activity">Нет недавней активности</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Все игры -->
+        <div class="all-games-section">
+            <h3>📋 Все сыгранные игры</h3>
+            <div id="all-games-container" class="all-games-container">
+                <div class="no-games">Игры не добавлены</div>
+            </div>
+        </div>
+    </div>
+
+    <script src="stats.js"></script>
+</body>
+</html>

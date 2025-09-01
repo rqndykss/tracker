@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dota 2 Titan MMR Tracker</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Dota 2 MMR Tracker</h1>
+            <div class="titan-badge">serenity</div>
+        </header>
+
+        <nav class="stats-nav">
+            <a href="stats.html" class="nav-btn">Статистика игр</a>
+        </nav>
+
+        <div class="profile">
+            <div class="avatar-section">
+                <img id="avatar" src="https://via.placeholder.com/150/666/ffffff?text=Titan" alt="Titan Avatar">
+                <input type="file" id="avatar-upload" accept="image/*">
+                <button onclick="uploadAvatar()"> Загрузить аватар</button>
+            </div>
+            
+            <div class="info-section">
+                <div class="input-group">
+                    <label for="player-id">Steam ID32:</label>
+                    <input type="text" id="player-id" placeholder="Введите ваш Steam ID">
+                </div>
+                
+                <!-- Ранг на видном месте -->
+                <div class="rank-display-main">
+                    <div class="rank-icon-main">
+                        <img id="rank-image-main" src="https://external-preview.redd.it/i-Vb5CpMuiYTWheUH3bBon6kymxFNLoopcxDymVhk10.png?auto=webp&s=a0818ecf4d2d2f304c953c55d0f0ee5083a88281" alt="Titan Rank">
+                        <div class="rank-text-main">
+                            <span id="rank-title-main" class="rank-title-main">Immortal</span>
+                            <span id="rank-position-main" class="rank-position-main">World Rank: #</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="immortal-progress-container">
+                    <label>Прогресс в Immortal: <span id="immortal-percent">100%</span></label>
+                    <div class="progress-bar">
+                        <div id="immortal-progress" class="progress-fill"></div>
+                    </div>
+                    <div class="progress-labels">
+                        <span>5630 MMR (Immortal)</span>
+                        <span>17500 MMR (Top 1)</span>
+                    </div>
+                </div>
+                    
+                <div class="rank-display">
+                    <div class="rank-icon">
+                        <div class="titan-icon"></div>
+                        <img id="rank-image" src="https://external-preview.redd.it/i-Vb5CpMuiYTWheUH3bBon6kymxFNLoopcxDymVhk10.png?auto=webp&s=a0818ecf4d2d2f304c953c55d0f0ee5083a88281" alt="Titan Rank">
+                    </div>
+                    <div class="rank-info">
+                        <span id="mmr-value" class="mmr-titan">10060 MMR</span>
+                        <span id="rank-position">World Rank: #</span>
+                        <span id="rank-details">Immortal • Top 0.5%</span>
+                    </div>
+                </div>
+                    
+                <div class="mmr-controls">
+                    <div class="mmr-buttons">
+                        <button onclick="changeMMR(-100)" class="mmr-btn minus">-100</button>
+                        <button onclick="changeMMR(-40)" class="mmr-btn minus">-40</button>
+                        <button onclick="changeMMR(-35)" class="mmr-btn minus">-35</button>
+                        <button onclick="changeMMR(-30)" class="mmr-btn minus">-30</button>
+                        <button onclick="changeMMR(-25)" class="mmr-btn minus">-25</button>
+                        <button onclick="changeMMR(-10)" class="mmr-btn minus">-10</button>
+                        
+                        <div class="mmr-display-container">
+                            <span id="current-mmr" class="mmr-display">10060</span>
+                            <span class="mmr-label">MMR</span>
+                        </div>
+                        
+                        <button onclick="changeMMR(10)" class="mmr-btn plus">+10</button>
+                        <button onclick="changeMMR(25)" class="mmr-btn plus">+25</button>
+                        <button onclick="changeMMR(30)" class="mmr-btn plus">+30</button>
+                        <button onclick="changeMMR(35)" class="mmr-btn plus">+35</button>
+                        <button onclick="changeMMR(40)" class="mmr-btn plus">+40</button>
+                        <button onclick="changeMMR(100)" class="mmr-btn plus">+100</button>
+                    </div>
+                </div>
+
+                <div class="manual-input">
+                    <label for="manual-mmr">Ручная установка MMR:</label>
+                    <div class="input-wrapper">
+                        <input type="number" id="manual-mmr" min="0" max="15000" value="10060">
+                        <button onclick="setManualMMR()">⚡ Применить</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Новая секция: Управление играми -->
+        <div class="game-management">
+            <h3>🎮 Управление играми (Случайный MMR)</h3>
+            
+            <div class="game-controls">
+                <div class="game-inputs">
+                    <div class="input-group">
+                        <label for="hero-name">Имя героя:</label>
+                        <input type="text" id="hero-name" placeholder="Например: Invoker">
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="game-duration">Длительность (минуты):</label>
+                        <input type="number" id="game-duration" min="0" max="120" value="40">
+                    </div>
+                    
+                    <div class="mmr-preview">
+                        <div class="mmr-preview-item">
+                            <span>Победа: </span>
+                            <span id="win-mmr-preview" class="mmr-preview-value positive">+25</span>
+                        </div>
+                        <div class="mmr-preview-item">
+                            <span>Поражение: </span>
+                            <span id="loss-mmr-preview" class="mmr-preview-value negative">-25</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="game-buttons">
+                    <button onclick="addGame('win')" class="win-btn">
+                         Победа 
+                        <span id="win-button-mmr">+25</span>
+                    </button>
+                    <button onclick="addGame('loss')" class="loss-btn">
+                         Поражение 
+                        <span id="loss-button-mmr">-25</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon">📈</div>
+                <h4>Изменение MMR</h4>
+                <span id="mmr-change" class="stat-value">+0</span>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">🏆</div>
+                <h4>Максимальный MMR</h4>
+                <span id="max-mmr" class="stat-value">10060</span>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">📉</div>
+                <h4>Минимальный MMR</h4>
+                <span id="min-mmr" class="stat-value">10060</span>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">🎯</div>
+                <h4>Всего изменений</h4>
+                <span id="total-changes" class="stat-value">0</span>
+            </div>
+        </div>
+        
+        <div class="actions">
+            <button onclick="saveData()" class="save-btn">💾 Сохранить прогресс</button>
+            <button onclick="resetMMR()" class="reset-btn">🔄 Сбросить на 10060</button>
+            <button onclick="exportData()" class="export-btn">📤 Экспорт данных</button>
+        </div>
+
+        <div class="history">
+            <h4>История изменений</h4>
+            <div id="history-list" class="history-list">
+                <div class="history-item">Начальное значение: 10060 MMR</div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
